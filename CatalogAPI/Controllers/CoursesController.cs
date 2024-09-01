@@ -7,7 +7,7 @@ namespace CatalogAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CourseController(DataContext context) : ControllerBase
+public class CoursesController(DataContext context) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Course>>> GetCourses(){

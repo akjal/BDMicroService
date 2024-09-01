@@ -1,0 +1,7 @@
+<h1>{{ title }}</h1>
+<ul>
+  @for(course of courses;track $index){
+
+  <li>{{ course.id }} - {{ course.name }}</li>
+  }
+</ul>
