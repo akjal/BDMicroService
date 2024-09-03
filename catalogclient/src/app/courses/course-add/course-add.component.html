@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Add New Course</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="data.name" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Type</mat-label>
+    <input matInput [(ngModel)]="data.type" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Duration</mat-label>
+    <input matInput [(ngModel)]="data.duration" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-stroked-button [mat-dialog-close]="data">Save</button>
+</div>

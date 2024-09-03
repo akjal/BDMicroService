@@ -1,9 +1,32 @@
-<app-nav></app-nav>
-<div class="container" style="margin-top: 100px">
-  <ul>
-    @for(course of courses;track $index){
+<mat-toolbar color="primary">
+  <a class="title" href="/">{{ title }}</a>
 
-    <li>{{ course.id }} - {{ course.name }}</li>
-    }
-  </ul>
+  <div class="toolbar-spacer"></div>
+  <a mat-button [routerLink]="['profile']">Profile</a>
+
+  <a mat-button [routerLink]="['course-list']">Courses</a>
+
+  @if (!loginDisplay) {
+  <button mat-raised-button [matMenuTriggerFor]="loginMenu">Login</button>
+  }
+  <mat-menu #loginMenu="matMenu">
+    <button mat-menu-item (click)="loginRedirect()">
+      Login using Redirect
+    </button>
+    <button mat-menu-item (click)="loginPopup()">Login using Popup</button>
+  </mat-menu>
+
+  @if (loginDisplay) {
+  <button mat-raised-button [matMenuTriggerFor]="logoutMenu">Logout</button>
+  }
+  <mat-menu #logoutMenu="matMenu">
+    <button mat-menu-item (click)="logout()">Logout using Redirect</button>
+    <button mat-menu-item (click)="logout(true)">Logout using Popup</button>
+  </mat-menu>
+</mat-toolbar>
+<div class="container">
+  <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
+  @if (!isIframe) {
+  <router-outlet></router-outlet>
+  }
 </div>

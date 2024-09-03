@@ -21,4 +21,14 @@ public class CoursesController(DataContext context) : ControllerBase
         if(course == null) return NotFound();
         return course;
     }
+
+    [HttpPost]
+public async Task<ActionResult<Course>> PostTodoItem(Course course)
+{
+    context.Courses.Add(course);
+    await context.SaveChangesAsync();
+
+    //    return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+     return NoContent(); //success
+}
 }
