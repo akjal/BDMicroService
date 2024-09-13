@@ -44,7 +44,6 @@ jobs:
           action: "upload"
           app_location: "/catalogclient"
           output_location: "dist/catalogclient"
-          ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
