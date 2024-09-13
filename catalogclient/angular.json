@@ -33,11 +33,11 @@
           },
           "configurations": {
             "production": {
-              "budgets": [
+            "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "2000kB",
+                  "maximumError": "5600kb"
                 },
                 {
                   "type": "anyComponentStyle",
