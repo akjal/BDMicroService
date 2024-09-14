@@ -47,6 +47,8 @@ export class CourseListComponent implements AfterViewInit {
       next: (response) => {
         this.courses = response as Course[];
         this.dataSource = new MatTableDataSource<Course>(this.courses);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       error: (error) => console.log(error),
       complete: () => console.log('Request has completed'),
@@ -55,9 +57,9 @@ export class CourseListComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.GetCourses();
+    console.log('paginator');
     console.log(this.paginator);
 
-    this.dataSource.paginator = this.paginator;
     this.cdr.detectChanges();
   }
   delete(arg0: any) {
