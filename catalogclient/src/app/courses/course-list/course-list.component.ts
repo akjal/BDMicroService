@@ -81,6 +81,8 @@ export class CourseListComponent implements AfterViewInit {
             if (index !== -1) {
               this.dataSource.data[index] = result;
               this.dataSource = new MatTableDataSource(this.dataSource.data);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
             }
           },
           error: (error) => console.log(error),
