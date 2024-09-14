@@ -23,7 +23,7 @@ public class CoursesController(DataContext context) : ControllerBase
     }
 
     [HttpPost]
-public async Task<ActionResult<Course>> PostTodoItem(Course course)
+public async Task<ActionResult<Course>> PostCourse(Course course)
 {
     context.Courses.Add(course);
     await context.SaveChangesAsync();
@@ -31,4 +31,52 @@ public async Task<ActionResult<Course>> PostTodoItem(Course course)
     //    return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
      return NoContent(); //success
 }
+
+[HttpPut("{id}")]
+public async Task<IActionResult> PutCourse(int id, Course course)
+{
+    if (id != course.Id)
+    {
+        return BadRequest();
+    }
+
+    context.Entry(course).State = EntityState.Modified;
+
+    try
+    {
+        await context.SaveChangesAsync();
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+        if (!CourseExists(id))
+        {
+            return NotFound();
+        }
+        else
+        {
+            throw;
+        }
+    }
+
+    return NoContent();
+}
+[HttpDelete("{id}")]
+public async Task<IActionResult> DeleteTodoItem(int id)
+{
+    var currentCourse = await context.Courses.FindAsync(id);
+    if (currentCourse == null)
+    {
+        return NotFound();
+    }
+
+    context.Courses.Remove(currentCourse);
+    await context.SaveChangesAsync();
+
+    return NoContent();
+}
+private bool CourseExists(int id)
+    {
+        return context.Courses.Any(e => e.Id == id);
+    }
+
 }

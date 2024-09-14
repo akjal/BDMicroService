@@ -16,4 +16,7 @@ export class CatalogService {
   addCourse(course: Course) {
     return this.http.post(this.baseUrl + 'courses', course);
   }
+  editCourse(id: number, course: Course) {
+    return this.http.put(this.baseUrl + 'courses/' + id, course);
+  }
 }

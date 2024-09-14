@@ -73,11 +73,19 @@ export class CourseListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const index = this.dataSource.data.findIndex((u) => u.id === course.id);
-        if (index !== -1) {
-          this.dataSource.data[index] = result;
-          this.dataSource = new MatTableDataSource(this.dataSource.data);
-        }
+        this.catalogService.editCourse(result.id, result).subscribe({
+          next: (response) => {
+            const index = this.dataSource.data.findIndex(
+              (u) => u.id === course.id
+            );
+            if (index !== -1) {
+              this.dataSource.data[index] = result;
+              this.dataSource = new MatTableDataSource(this.dataSource.data);
+            }
+          },
+          error: (error) => console.log(error),
+          complete: () => console.log('Edited a course'),
+        });
       }
     });
   }

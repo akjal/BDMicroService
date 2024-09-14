@@ -15,7 +15,9 @@
     </ng-container>
     <!-- Type Column -->
     <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Course Type</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="type">
+        Course Type
+      </th>
       <td mat-cell *matCellDef="let course">{{ course.type }}</td>
     </ng-container>
     <!-- Duration Column -->
