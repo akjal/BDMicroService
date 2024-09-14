@@ -7,22 +7,22 @@
   <a mat-button [routerLink]="['course-list']">Courses</a>
 
   @if (!loginDisplay) {
-  <button mat-raised-button [matMenuTriggerFor]="loginMenu">Login</button>
+  <button mat-raised-button (click)="loginPopup()">Login</button>
   }
-  <mat-menu #loginMenu="matMenu">
-    <button mat-menu-item (click)="loginRedirect()">
+  <!-- <mat-menu #loginMenu="matMenu">
+     <button mat-menu-item (click)="loginRedirect()">
       Login using Redirect
-    </button>
+    </button> 
     <button mat-menu-item (click)="loginPopup()">Login using Popup</button>
-  </mat-menu>
+  </mat-menu> -->
 
   @if (loginDisplay) {
-  <button mat-raised-button [matMenuTriggerFor]="logoutMenu">Logout</button>
+  <button mat-raised-button (click)="logout()">Logout</button>
   }
-  <mat-menu #logoutMenu="matMenu">
+  <!-- <mat-menu #logoutMenu="matMenu">
     <button mat-menu-item (click)="logout()">Logout using Redirect</button>
     <button mat-menu-item (click)="logout(true)">Logout using Popup</button>
-  </mat-menu>
+  </mat-menu> -->
 </mat-toolbar>
 <div class="container">
   <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
