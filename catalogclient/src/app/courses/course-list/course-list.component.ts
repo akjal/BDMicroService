@@ -38,7 +38,14 @@ export class CourseListComponent implements AfterViewInit {
   courses!: Course[];
   dataSource!: MatTableDataSource<Course>;
 
-  displayedColumns: string[] = ['name', 'duration', 'type', 'actions'];
+  displayedColumns: string[] = [
+    'name',
+    'duration',
+    'type',
+    'description',
+    'enrollment',
+    'actions',
+  ];
   @ViewChild(MatSort) sort: MatSort = <MatSort>{};
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -120,4 +127,8 @@ export interface Course {
   id: number;
   duration: number;
   type: string;
+  description: string;
+  currentEnrollment: number;
+  maxEnrollment: number;
+  university: string;
 }

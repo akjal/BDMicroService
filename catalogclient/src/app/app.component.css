@@ -5,3 +5,15 @@
 a.title {
   color: white;
 }
+.user-info {
+  width: 500px;
+  padding: 10px;
+}
+
+mat-menu {
+  max-height: 300px;
+  overflow: auto;
+}
+mat-list-item {
+  white-space: nowrap;
+}

@@ -1,48 +1,46 @@
-<button mat-stroked-button (click)="addCourse()">Add New Course</button>
+<button mat-stroked-button (click)="adduni()">Add New uni</button>
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
     <!-- Id Column -->
 
     <!-- <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-    <td mat-cell *matCellDef="let course">{{ course.id }}</td>
+    <td mat-cell *matCellDef="let uni">{{ uni.id }}</td>
   </ng-container> -->
 
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let course">{{ course.name }}</td>
+      <td mat-cell *matCellDef="let uni">{{ uni.name }}</td>
     </ng-container>
     <!-- Type Column -->
-    <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header="type">
-        Course Type
+    <ng-container matColumnDef="webPage">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="webPage">
+        Website
       </th>
-      <td mat-cell *matCellDef="let course">{{ course.type }}</td>
+      <td mat-cell *matCellDef="let uni">{{ uni.webPages }}</td>
     </ng-container>
     <!-- Duration Column -->
-    <ng-container matColumnDef="duration">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Duration</th>
-      <td mat-cell *matCellDef="let course">{{ course.duration }}</td>
-    </ng-container>
-    <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-      <td mat-cell *matCellDef="let course">{{ course.description }}</td>
+    <ng-container matColumnDef="country">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+      <td mat-cell *matCellDef="let uni">{{ uni.country }}</td> </ng-container
+    >Sta
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>State</th>
+      <td mat-cell *matCellDef="let uni">{{ uni.state }}</td>
     </ng-container>
     <ng-container matColumnDef="enrollment">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>
         Available/Total Seats
       </th>
-      <td mat-cell *matCellDef="let course">
-        {{ course.currentEnrollment }} / {{ course.maxEnrollment }}
-      </td>
+      <td mat-cell *matCellDef="let uni"></td>
     </ng-container>
     <!-- Action Column -->
     <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
+    <ng-container matolumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button (click)="editCourse(element)">
+        <button mat-icon-button>
           <mat-icon>edit</mat-icon>
         </button>
       </td>

@@ -1,5 +1,6 @@
 using CatalogAPI.Data;
 using CatalogAPI.Entities;
+using CatalogAPI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +11,12 @@ namespace CatalogAPI.Controllers;
 public class CoursesController(DataContext context) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Course>>> GetCourses(){
-        var courses = await context.Courses.ToListAsync();
+    public async Task<ActionResult<IEnumerable<CourseVM>>> GetCourses(){
+        //var courses = await context.Courses.ToListAsync();
+        var courses = await (from c in context.Courses
+        join cd in context.CourseDetails on c.Id equals cd.CourseId
+        select new CourseVM  {Id= c.Id,Name= c.Name, Description = c.Description, Duration = cd.Duration,Type = cd.CourseType, CurrentEnrollment = cd.CurrentEnrollment, 
+        MaxEnrollment = cd.MaxEnrollment} ).ToListAsync();
         return courses;
     }
 

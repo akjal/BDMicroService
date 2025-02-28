@@ -2,9 +2,10 @@
   <a class="title" href="/">{{ title }}</a>
 
   <div class="toolbar-spacer"></div>
-  <a mat-button [routerLink]="['profile']">Profile</a>
 
   <a mat-button [routerLink]="['course-list']">Courses</a>
+
+  <a mat-button [routerLink]="['uni-list']">Universities</a>
 
   @if (!loginDisplay) {
   <button mat-raised-button (click)="loginPopup()">Login</button>
@@ -23,7 +24,29 @@
     <button mat-menu-item (click)="logout()">Logout using Redirect</button>
     <button mat-menu-item (click)="logout(true)">Logout using Popup</button>
   </mat-menu> -->
+  <a mat-button [matMenuTriggerFor]="userMenu">
+    <span class="material-icons"> account_circle </span>
+  </a>
 </mat-toolbar>
+<mat-menu #userMenu="matMenu">
+  <div class="user-info">
+    <!-- User Info (example) -->
+    <mat-list>
+      <mat-list-item>
+        <span>Name: John Doe</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span>Email: john.doe&#64;example.com</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span>License Type: Gold</span>
+      </mat-list-item>
+      <mat-list-item>
+        <span>License Duration: 13-01-2025 - 13-01-2026</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</mat-menu>
 <div class="container">
   <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
   @if (!isIframe) {

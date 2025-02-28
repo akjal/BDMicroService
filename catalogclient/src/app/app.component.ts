@@ -21,6 +21,7 @@ import {
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +36,7 @@ import { CommonModule } from '@angular/common';
     MatToolbarModule,
     MatButtonModule,
     MatMenuModule,
+    MatListModule,
   ],
 })
 export class AppComponent implements OnInit, OnDestroy {

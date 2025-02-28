@@ -19,4 +19,9 @@ export class CatalogService {
   editCourse(id: number, course: Course) {
     return this.http.put(this.baseUrl + 'courses/' + id, course);
   }
+
+  /*Univerisity*/
+  getAllUniversities() {
+    return this.http.get(this.baseUrl + 'universities');
+  }
 }
