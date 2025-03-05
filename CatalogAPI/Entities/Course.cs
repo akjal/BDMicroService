@@ -6,6 +6,7 @@ public class Course
     public required string Name { get; set; }
     public DateTime CreatedTimestamp { get; set; }
     public string? Description { get; set; }
-
+    // Navigation Property
+   public CourseDetails CourseDetails { get; set; }
 }
 

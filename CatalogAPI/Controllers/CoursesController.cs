@@ -1,6 +1,7 @@
 using CatalogAPI.Data;
+using CatalogAPI.DTOs;
 using CatalogAPI.Entities;
-using CatalogAPI.ViewModels;
+using CatalogAPI.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,13 +12,29 @@ namespace CatalogAPI.Controllers;
 public class CoursesController(DataContext context) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CourseVM>>> GetCourses(){
-        //var courses = await context.Courses.ToListAsync();
-        var courses = await (from c in context.Courses
-        join cd in context.CourseDetails on c.Id equals cd.CourseId
-        select new CourseVM  {Id= c.Id,Name= c.Name, Description = c.Description, Duration = cd.Duration,Type = cd.CourseType, CurrentEnrollment = cd.CurrentEnrollment, 
-        MaxEnrollment = cd.MaxEnrollment} ).ToListAsync();
-        return courses;
+public async Task<IActionResult> GetAllCourses()
+{            var courses = await context.Courses
+        .Include(c => c.CourseDetails)
+        .Select(c => new CourseDTO
+        {
+            Id = c.Id,
+            Name = c.Name,
+            Description = c.Description,
+            Duration = c.CourseDetails != null ? c.CourseDetails.Duration : null,
+            Type = c.CourseDetails != null ? c.CourseDetails.CourseType : null,
+            CurrentEnrollment = c.CourseDetails != null ? c.CourseDetails.CurrentEnrollment : 0,    
+            MaxEnrollment = c.CourseDetails != null ? c.CourseDetails.MaxEnrollment : 0
+
+        })
+        .ToListAsync();
+       
+
+    if (courses == null || courses.Count == 0)
+    {
+        return NotFound("No courses found");
+    }
+
+    return Ok(courses);
     }
 
       [HttpGet("{id:int}")]
@@ -28,8 +45,21 @@ public class CoursesController(DataContext context) : ControllerBase
     }
 
     [HttpPost]
-public async Task<ActionResult<Course>> PostCourse(Course course)
+public async Task<ActionResult<Course>> PostCourse(CourseDTO courseDto)
 {
+
+      var course = new Course
+        {
+            Name = courseDto.Name,
+            Description = courseDto.Description,
+            CourseDetails = new CourseDetails
+            {
+                MaxEnrollment = courseDto.MaxEnrollment,
+                CurrentEnrollment = courseDto.CurrentEnrollment,
+                CourseType = courseDto.Type,
+                Duration = courseDto.Duration
+            }
+        };
     context.Courses.Add(course);
     await context.SaveChangesAsync();
 
@@ -38,30 +68,63 @@ public async Task<ActionResult<Course>> PostCourse(Course course)
 }
 
 [HttpPut("{id}")]
-public async Task<IActionResult> PutCourse(int id, Course course)
+public async Task<IActionResult> PutCourse(int id, CourseDTO courseDto)
 {
-    if (id != course.Id)
+    if (id != courseDto.Id)
     {
         return BadRequest();
     }
+        var existingCourse = await context.Courses
+        .Include(c => c.CourseDetails)
+        .FirstOrDefaultAsync(c => c.Id == id);
 
-    context.Entry(course).State = EntityState.Modified;
+    if (existingCourse == null)
+    {
+        return NotFound("Course not found");
+    }
+    
+        // Update Course Fields
+    existingCourse.Name = courseDto.Name;
+    existingCourse.Description = courseDto.Description;
+    // Update CourseDetails Fields
+    if (existingCourse.CourseDetails != null)
+    {
+        existingCourse.CourseDetails.CourseType = courseDto.Type;
+        existingCourse.CourseDetails.Duration = courseDto.Duration;
+        existingCourse.CourseDetails.MaxEnrollment = courseDto.MaxEnrollment;
+        existingCourse.CourseDetails.CurrentEnrollment = courseDto.CurrentEnrollment;   
+    }
+    else
+    {
+        // Create new CourseDetails if it does not exist
+        existingCourse.CourseDetails = new CourseDetails
+        {
+             MaxEnrollment = courseDto.MaxEnrollment,
+                CurrentEnrollment = courseDto.CurrentEnrollment,
+                CourseType = courseDto.Type,
+                Duration = courseDto.Duration
+        };
+    }
 
-    try
-    {
-        await context.SaveChangesAsync();
-    }
-    catch (DbUpdateConcurrencyException)
-    {
-        if (!CourseExists(id))
-        {
-            return NotFound();
-        }
-        else
-        {
-            throw;
-        }
-    }
+    await context.SaveChangesAsync(); // Save changes to DB
+
+    // context.Entry(courseDto).State = EntityState.Modified;
+
+    // try
+    // {
+    //     await context.SaveChangesAsync();
+    // }
+    // catch (DbUpdateConcurrencyException)
+    // {
+    //     if (!CourseExists(id))
+    //     {
+    //         return NotFound();
+    //     }
+    //     else
+    //     {
+    //         throw;
+    //     }
+    // }
 
     return NoContent();
 }

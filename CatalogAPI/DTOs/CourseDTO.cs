@@ -1,5 +1,5 @@
-namespace CatalogAPI.ViewModels;
-public class CourseVM
+namespace CatalogAPI.DTOs;
+public class CourseDTO
 
 {
     public int Id { get; set; }
@@ -9,5 +9,6 @@ public class CourseVM
      public string? Description { get; set; }
     public int MaxEnrollment { get; set; }
     public int CurrentEnrollment { get; set; }
+    
 
 }

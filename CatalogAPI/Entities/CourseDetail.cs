@@ -1,10 +1,9 @@
 namespace CatalogAPI.Entities
 {
-    public class CourseDetail
+    public class CourseDetails
     {
      public int Id { get; set; }
 
-    public int CourseId { get; set; }
 
     public string InstructorName { get; set; } = null!;
 
@@ -39,5 +38,11 @@ namespace CatalogAPI.Entities
     public string CourseFormat { get; set; } = null!;
 
     public string Fee { get; set; } = null!;
+
+       // Foreign Key
+    public int CourseId { get; set; }
+
+    // Navigation Property
+    public Course Course { get; set; }
     }
 }

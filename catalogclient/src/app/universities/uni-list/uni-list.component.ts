@@ -15,6 +15,7 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { CatalogService } from '../../_services/catalog.service';
+import { UniEditComponent } from '../uni-edit/uni-edit.component';
 
 @Component({
   selector: 'app-uni-list',
@@ -59,7 +60,27 @@ export class UniListComponent implements AfterViewInit {
       complete: () => console.log('Request has completed'),
     });
   }
-  adduni(): void {}
+  adduniversity(): void {
+    let uni = {} as University;
+    const dialogRef = this.dialog.open(UniEditComponent, {
+      width: '800px',
+      data: uni,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.catalogService.addUniversity(result).subscribe({
+          next: (response) => {
+            this.universities = response as University[];
+            this.dataSource.data.push(result);
+            this.dataSource.data = [...this.dataSource.data];
+          },
+          error: (error) => console.log(error),
+          complete: () => console.log('Added a new university'),
+        });
+      }
+    });
+  }
 }
 
 export interface University {

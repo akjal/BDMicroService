@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Course } from '../courses/course-list/course-list.component';
+import { University } from '../universities/uni-list/uni-list.component';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +24,11 @@ export class CatalogService {
   /*Univerisity*/
   getAllUniversities() {
     return this.http.get(this.baseUrl + 'universities');
+  }
+  addUniversity(uni: University) {
+    return this.http.post(this.baseUrl + 'universities', uni);
+  }
+  editUniversity(id: number, uni: University) {
+    return this.http.put(this.baseUrl + 'universities/' + id, uni);
   }
 }

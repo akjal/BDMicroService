@@ -1,1 +1,23 @@
-<p>uni-edit works!</p>
+<h1 mat-dialog-title>Edit University</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="data.name" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Website</mat-label>
+    <input matInput [(ngModel)]="data.webPages" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Country</mat-label>
+    <input matInput [(ngModel)]="data.country" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>State</mat-label>
+    <input matInput [(ngModel)]="data.state" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-stroked-button [mat-dialog-close]="data">Save</button>
+</div>
