@@ -1,0 +1,71 @@
+<mat-horizontal-stepper linear #stepper>
+  <!-- Step 1: Profile Information -->
+  <mat-step [stepControl]="profileFormGroup" label="Profile">
+    <form [formGroup]="profileFormGroup">
+      <h3>Step 1: Profile Information</h3>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Full Name"
+          formControlName="fullName"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" required />
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext [disabled]="!profileFormGroup.valid">
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- Step 2: Choose University -->
+  <mat-step [stepControl]="universityFormGroup" label="University">
+    <form [formGroup]="universityFormGroup">
+      <h3>Step 2: Choose a University</h3>
+      <mat-form-field>
+        <mat-select
+          placeholder="Select University"
+          formControlName="university"
+        >
+          <mat-option *ngFor="let uni of universities" [value]="uni.name">{{
+            uni.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button
+          mat-button
+          matStepperNext
+          [disabled]="!universityFormGroup.valid"
+        >
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <!-- Step 3: Choose Course -->
+  <mat-step [stepControl]="courseFormGroup" label="Course">
+    <form [formGroup]="courseFormGroup">
+      <h3>Step 3: Choose a Course</h3>
+      <mat-form-field>
+        <mat-select placeholder="Select Course" formControlName="course">
+          <mat-option
+            *ngFor="let course of universityCourses"
+            [value]="course.name"
+            >{{ course.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="submitApplication()">Submit</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>

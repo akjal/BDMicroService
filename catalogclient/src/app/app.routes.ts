@@ -5,6 +5,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { MsalGuard } from '@azure/msal-angular';
 import { CourseListComponent } from './courses/course-list/course-list.component';
 import { UniListComponent } from './universities/uni-list/uni-list.component';
+import { ApplicationAddComponent } from './applications/app-add/application-add/application-add.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,11 @@ export const routes: Routes = [
   {
     path: 'uni-list',
     component: UniListComponent,
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'application-add',
+    component: ApplicationAddComponent,
     canActivate: [MsalGuard],
   },
   {
