@@ -70,6 +70,26 @@ export class ApplicationAddComponent {
       alert('Application submitted successfully!');
     }
   }
+  onStepChange(event: any) {
+    if (event.selectedIndex === 2) {
+      // Step 2
+      this.GetUniversityCourses();
+    }
+  }
+
+  private GetUniversityCourses() {
+    var selectedUni = this.universityFormGroup.value.university;
+    var selectedUniId =
+      this.universities.find((x) => x.name === selectedUni)?.id ?? 0;
+
+    this.catalogService.getCourseByUniversityId(selectedUniId).subscribe({
+      next: (response) => {
+        this.universityCourses = response as Course[];
+      },
+      error: (error) => console.log(error),
+      complete: () => console.log('Request has completed'),
+    });
+  }
   private GetUniversities() {
     this.catalogService.getAllUniversities().subscribe({
       next: (response) => {

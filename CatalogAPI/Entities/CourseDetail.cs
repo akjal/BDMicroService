@@ -42,7 +42,11 @@ namespace CatalogAPI.Entities
        // Foreign Key
     public int CourseId { get; set; }
 
-    // Navigation Property
+    // Navigation Property  
     public Course Course { get; set; }
+    public int UniversityId { get; set; }          // Foreign Key
+
+    public University University { get; set; }
+
     }
 }

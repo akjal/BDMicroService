@@ -9,6 +9,7 @@ public class CourseDTO
      public string? Description { get; set; }
     public int MaxEnrollment { get; set; }
     public int CurrentEnrollment { get; set; }
-    
+    public string? University { get; set; } 
+
 
 }

@@ -20,6 +20,12 @@ export class CatalogService {
   editCourse(id: number, course: Course) {
     return this.http.put(this.baseUrl + 'courses/' + id, course);
   }
+  deleteCourse(id: number) {
+    return this.http.delete(this.baseUrl + 'courses/' + id);
+  }
+  getCourseByUniversityId(universityId: number) {
+    return this.http.get(this.baseUrl + 'courses/university/' + universityId);
+  }
 
   /*Univerisity*/
   getAllUniversities() {

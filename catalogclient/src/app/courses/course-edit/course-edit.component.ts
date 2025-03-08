@@ -33,12 +33,13 @@ export class CourseEditComponent {
   http = inject(HttpClient);
   universities!: University[];
   catalogService = inject(CatalogService);
-
+  selectedUniversity!: string;
   constructor(
     public dialogRef: MatDialogRef<CourseEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Course
   ) {
     this.GetUniversities();
+    this.selectedUniversity = data.university;
   }
   private GetUniversities() {
     this.catalogService.getAllUniversities().subscribe({

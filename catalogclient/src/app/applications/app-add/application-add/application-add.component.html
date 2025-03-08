@@ -1,4 +1,8 @@
-<mat-horizontal-stepper linear #stepper>
+<mat-horizontal-stepper
+  linear
+  #stepper
+  (selectionChange)="onStepChange($event)"
+>
   <!-- Step 1: Profile Information -->
   <mat-step [stepControl]="profileFormGroup" label="Profile">
     <form [formGroup]="profileFormGroup">

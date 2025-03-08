@@ -23,7 +23,8 @@ public async Task<IActionResult> GetAllCourses()
             Duration = c.CourseDetails != null ? c.CourseDetails.Duration : null,
             Type = c.CourseDetails != null ? c.CourseDetails.CourseType : null,
             CurrentEnrollment = c.CourseDetails != null ? c.CourseDetails.CurrentEnrollment : 0,    
-            MaxEnrollment = c.CourseDetails != null ? c.CourseDetails.MaxEnrollment : 0
+            MaxEnrollment = c.CourseDetails != null ? c.CourseDetails.MaxEnrollment : 0,
+            University = c.CourseDetails != null ? c.CourseDetails.University.Name : null
 
         })
         .ToListAsync();
@@ -43,11 +44,39 @@ public async Task<IActionResult> GetAllCourses()
         if(course == null) return NotFound();
         return course;
     }
+    // ✅ GET: api/courses/university/{universityId}
+    [HttpGet("university/{universityId}")]
+    public async Task<IActionResult> GetCoursesByUniversity(int universityId)
+    {
+        var courses = await context.Courses
+            .Include(c => c.CourseDetails)
+            .Where(c => c.CourseDetails.UniversityId == universityId)
+            .Select(c => new CourseDTO
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                Duration = c.CourseDetails != null ? c.CourseDetails.Duration : null,
+                Type = c.CourseDetails != null ? c.CourseDetails.CourseType : null,
+                CurrentEnrollment = c.CourseDetails != null ? c.CourseDetails.CurrentEnrollment : 0,    
+                MaxEnrollment = c.CourseDetails != null ? c.CourseDetails.MaxEnrollment : 0,
+                University = c.CourseDetails != null ? c.CourseDetails.University.Name : null
+            })
+            .ToListAsync();
 
+        if (courses == null || courses.Count == 0)
+        {
+            return NotFound("No courses found for this university");
+        }
+
+        return Ok(courses); // 200 OK
+    }
     [HttpPost]
 public async Task<ActionResult<Course>> PostCourse(CourseDTO courseDto)
 {
-
+   var university = await context.Universities.FirstOrDefaultAsync(u => u.Name == courseDto.University);
+    if (university == null)
+        return BadRequest();
       var course = new Course
         {
             Name = courseDto.Name,
@@ -57,7 +86,8 @@ public async Task<ActionResult<Course>> PostCourse(CourseDTO courseDto)
                 MaxEnrollment = courseDto.MaxEnrollment,
                 CurrentEnrollment = courseDto.CurrentEnrollment,
                 CourseType = courseDto.Type,
-                Duration = courseDto.Duration
+                Duration = courseDto.Duration,
+                UniversityId = university.Id
             }
         };
     context.Courses.Add(course);
@@ -83,7 +113,9 @@ public async Task<IActionResult> PutCourse(int id, CourseDTO courseDto)
         return NotFound("Course not found");
     }
     
-        // Update Course Fields
+    var university = await context.Universities.FirstOrDefaultAsync(u => u.Name == courseDto.University);
+    if (university == null)
+        return BadRequest();
     existingCourse.Name = courseDto.Name;
     existingCourse.Description = courseDto.Description;
     // Update CourseDetails Fields
@@ -93,6 +125,7 @@ public async Task<IActionResult> PutCourse(int id, CourseDTO courseDto)
         existingCourse.CourseDetails.Duration = courseDto.Duration;
         existingCourse.CourseDetails.MaxEnrollment = courseDto.MaxEnrollment;
         existingCourse.CourseDetails.CurrentEnrollment = courseDto.CurrentEnrollment;   
+        existingCourse.CourseDetails.UniversityId = university.Id;
     }
     else
     {
@@ -102,7 +135,8 @@ public async Task<IActionResult> PutCourse(int id, CourseDTO courseDto)
              MaxEnrollment = courseDto.MaxEnrollment,
                 CurrentEnrollment = courseDto.CurrentEnrollment,
                 CourseType = courseDto.Type,
-                Duration = courseDto.Duration
+                Duration = courseDto.Duration,
+                UniversityId = university.Id
         };
     }
 
