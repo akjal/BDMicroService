@@ -5,6 +5,17 @@
 >
   <!-- Step 1: Profile Information -->
   <mat-step [stepControl]="profileFormGroup" label="Profile">
+    <div
+      class="upload-box"
+      (drop)="onFileDropped($event)"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+    >
+      <p>Drag & drop your passport file here (PDF/Image)</p>
+      <input type="file" hidden #fileInput (change)="onFileSelected($event)" />
+      <button mat-button (click)="fileInput.click()">Or Browse</button>
+    </div>
+
     <form [formGroup]="profileFormGroup">
       <h3>Step 1: Profile Information</h3>
       <mat-form-field>
@@ -18,6 +29,68 @@
       <mat-form-field>
         <input matInput placeholder="Email" formControlName="email" required />
       </mat-form-field>
+      <h4>Passport Details</h4>
+
+      <!-- Passport Number -->
+      <mat-form-field appearance="fill">
+        <mat-label>Passport Number</mat-label>
+        <input matInput formControlName="passportNumber" required />
+      </mat-form-field>
+
+      <!-- Issue Date -->
+      <!-- <mat-form-field appearance="fill">
+        <mat-label>Passport Issue Date</mat-label>
+        <input
+          matInput
+          type="date"
+          formControlName="passportIssueDate"
+          required
+          forma
+        />
+      </mat-form-field> -->
+
+      <mat-form-field appearance="fill">
+        <mat-label>Passport Issue Date</mat-label>
+
+        <input
+          matInput
+          [matDatepicker]="issuePicker"
+          formControlName="passportIssueDate"
+        />
+
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="issuePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #issuePicker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Expiry Date -->
+      <mat-form-field appearance="fill">
+        <mat-label>Passport Expiry Date</mat-label>
+
+        <input
+          matInput
+          [matDatepicker]="expiryPicker"
+          formControlName="passportExpiryDate"
+        />
+
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="expiryPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #expiryPicker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="fill">
+        <mat-label>Passport Expiry Date</mat-label>
+        <input
+          matInput
+          type="date"
+          formControlName="passportExpiryDate"
+          required
+        />
+      </mat-form-field> -->
       <div>
         <button mat-button matStepperNext [disabled]="!profileFormGroup.valid">
           Next
@@ -66,10 +139,63 @@
           >
         </mat-select>
       </mat-form-field>
+
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="submitApplication()">Submit</button>
+        <button mat-button matStepperNext [disabled]="!courseFormGroup.valid">
+          Next
+        </button>
       </div>
     </form>
+  </mat-step>
+  <mat-step label="Review & Submit">
+    <h3>Review Your Application</h3>
+
+    <div class="review-block">
+      <h4>Profile Details</h4>
+      <p>
+        <strong>Name:</strong> {{ profileFormGroup.get("fullName")?.value }}
+      </p>
+      <p><strong>Email:</strong> {{ profileFormGroup.get("email")?.value }}</p>
+      <p>
+        <strong>Passport Number:</strong>
+        {{ profileFormGroup.get("passportNumber")?.value }}
+      </p>
+      <p>
+        <strong>Passport Issue Date:</strong>
+        {{
+          profileFormGroup.get("passportIssueDate")?.value | date : "dd/MM/yyyy"
+        }}
+      </p>
+      <p>
+        <strong>Passport Expiry Date:</strong>
+        {{
+          profileFormGroup.get("passportExpiryDate")?.value
+            | date : "dd/MM/yyyy"
+        }}
+      </p>
+    </div>
+
+    <div class="review-block">
+      <h4>University Details</h4>
+      <p>
+        <strong>Selected University:</strong>
+        {{ universityFormGroup.get("university")?.value }}
+      </p>
+    </div>
+
+    <div class="review-block">
+      <h4>Course Details</h4>
+      <p>
+        <strong>Selected Course:</strong>
+        {{ courseFormGroup.get("course")?.value }}
+      </p>
+    </div>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" (click)="submitApplication()">
+        Submit Application
+      </button>
+    </div>
   </mat-step>
 </mat-horizontal-stepper>

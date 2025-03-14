@@ -9,6 +9,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 }
 );  
+builder.Services.AddSingleton<DocumentIntelligenceService>();
 builder.Services.AddControllers();
 builder.Services.AddCors();
 

@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Course } from '../courses/course-list/course-list.component';
 import { University } from '../universities/uni-list/uni-list.component';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,5 +37,17 @@ export class CatalogService {
   }
   editUniversity(id: number, uni: University) {
     return this.http.put(this.baseUrl + 'universities/' + id, uni);
+  }
+
+  uploadPassport(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<any>(
+      this.baseUrl + 'applications/passport/extract',
+      formData
+    );
+  }
+  submitApplication(data: any): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'applications', data);
   }
 }

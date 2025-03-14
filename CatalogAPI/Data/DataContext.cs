@@ -9,6 +9,7 @@ public class DataContext(DbContextOptions options) : DbContext(options)
    public DbSet<CourseDetails> CourseDetails { get; set; }
 
    public DbSet<University> Universities { get; set; }
+    public DbSet<Application> Applications { get; set; }
 
       protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

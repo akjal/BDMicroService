@@ -10,6 +10,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatNativeDateModule,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
+
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { University } from '../../../universities/uni-list/uni-list.component';
@@ -26,6 +32,8 @@ import { Course } from '../../../courses/course-list/course-list.component';
     MatSelectModule,
     MatButtonModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './application-add.component.html',
   styleUrl: './application-add.component.css',
@@ -44,6 +52,9 @@ export class ApplicationAddComponent {
     this.profileFormGroup = this._formBuilder.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      passportNumber: ['', Validators.required],
+      passportIssueDate: ['', Validators.required],
+      passportExpiryDate: ['', Validators.required],
     });
 
     this.universityFormGroup = this._formBuilder.group({
@@ -66,6 +77,20 @@ export class ApplicationAddComponent {
         ...this.universityFormGroup.value,
         ...this.courseFormGroup.value,
       };
+
+      console.log('Submitting data:', applicationData);
+
+      this.catalogService.submitApplication(applicationData).subscribe({
+        next: (res) => {
+          console.log('Application submitted successfully:', res);
+          alert('Application submitted successfully!');
+        },
+        error: (err) => {
+          console.error('Failed to submit application:', err);
+          alert('Submission failed. Please try again.');
+        },
+      });
+
       console.log('Application Submitted:', applicationData);
       alert('Application submitted successfully!');
     }
@@ -97,6 +122,43 @@ export class ApplicationAddComponent {
       },
       error: (error) => console.log(error),
       complete: () => console.log('Request has completed'),
+    });
+  }
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    (event.currentTarget as HTMLElement).classList.add('dragover');
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    (event.currentTarget as HTMLElement).classList.remove('dragover');
+  }
+
+  onFileDropped(event: DragEvent) {
+    event.preventDefault();
+    const file = event.dataTransfer?.files[0];
+    if (file) this.uploadPassportFile(file);
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) this.uploadPassportFile(file);
+  }
+
+  uploadPassportFile(file: File) {
+    this.catalogService.uploadPassport(file).subscribe({
+      next: (data) => {
+        this.profileFormGroup.patchValue({
+          fullName: data.fullName,
+          email: data.email,
+          passportNumber: data.passportNumber,
+          passportIssueDate: new Date(data.passportIssueDate),
+          passportExpiryDate: new Date(data.passportExpiryDate),
+        });
+      },
+      error: (error) => {
+        console.error('Passport upload failed:', error);
+      },
     });
   }
 }
