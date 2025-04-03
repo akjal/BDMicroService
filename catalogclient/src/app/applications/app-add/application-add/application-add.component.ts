@@ -18,9 +18,9 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { University } from '../../../universities/uni-list/uni-list.component';
 import { CatalogService } from '../../../_services/catalog.service';
-import { Course } from '../../../courses/course-list/course-list.component';
+import { University } from '../../../models/university.model';
+import { Course } from '../../../models/course.model';
 @Component({
   selector: 'application-add',
   standalone: true,
@@ -105,7 +105,7 @@ export class ApplicationAddComponent {
   private GetUniversityCourses() {
     var selectedUni = this.universityFormGroup.value.university;
     var selectedUniId =
-      this.universities.find((x) => x.name === selectedUni)?.id ?? 0;
+      this.universities.find((x) => x.name === selectedUni)?.id || '';
 
     this.catalogService.getCourseByUniversityId(selectedUniId).subscribe({
       next: (response) => {

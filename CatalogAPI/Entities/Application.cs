@@ -1,12 +1,25 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+namespace CatalogAPI.Entities;
+
+
 public class Application
 {
-    public int Id { get; set; }
-    public string FullName { get; set; }
-    public string Email { get; set; }
-    public string PassportNumber { get; set; }
-    public DateTime PassportIssueDate { get; set; }
-    public DateTime PassportExpiryDate { get; set; }
-    public int UniversityId { get; set; }
-    public string Course { get; set; }
+    public Guid Id { get; set; }
+    [MaxLength(50)]
+    public string? ApplicationStatus { get; set; } // e.g., Submitted, Reviewed, Offered, Rejected
+
+    public Guid StudentId { get; set; }
+    public Student Student { get; set; }
+
+    public Guid CourseId { get; set; }
+    public Course Course { get; set; }
+
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
+
+    public Offer Offer { get; set; }
+    public ICollection<Document> Documents { get; set; }
+    // public CASLetter CASLetter { get; set; }
+     public ICollection<Payment> Payments { get; set; }
+
 }

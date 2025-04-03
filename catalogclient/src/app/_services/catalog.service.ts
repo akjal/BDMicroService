@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Course } from '../courses/course-list/course-list.component';
-import { University } from '../universities/uni-list/uni-list.component';
 import { Observable } from 'rxjs';
+import { University } from '../models/university.model';
+import { Course } from '../models/course.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,30 +13,30 @@ export class CatalogService {
   baseUrl = environment.apiConfig.catalogApiUri;
 
   getAllCourses() {
-    return this.http.get(this.baseUrl + 'courses');
+    return this.http.get(this.baseUrl + 'course');
   }
   addCourse(course: Course) {
-    return this.http.post(this.baseUrl + 'courses', course);
+    return this.http.post(this.baseUrl + 'course', course);
   }
   editCourse(id: number, course: Course) {
-    return this.http.put(this.baseUrl + 'courses/' + id, course);
+    return this.http.put(this.baseUrl + 'course/' + id, course);
   }
   deleteCourse(id: number) {
-    return this.http.delete(this.baseUrl + 'courses/' + id);
+    return this.http.delete(this.baseUrl + 'course/' + id);
   }
-  getCourseByUniversityId(universityId: number) {
-    return this.http.get(this.baseUrl + 'courses/university/' + universityId);
+  getCourseByUniversityId(universityId: string) {
+    return this.http.get(this.baseUrl + 'course/university/' + universityId);
   }
 
   /*Univerisity*/
   getAllUniversities() {
-    return this.http.get(this.baseUrl + 'universities');
+    return this.http.get(this.baseUrl + 'university');
   }
   addUniversity(uni: University) {
-    return this.http.post(this.baseUrl + 'universities', uni);
+    return this.http.post(this.baseUrl + 'university', uni);
   }
   editUniversity(id: number, uni: University) {
-    return this.http.put(this.baseUrl + 'universities/' + id, uni);
+    return this.http.put(this.baseUrl + 'university/' + id, uni);
   }
 
   uploadPassport(file: File): Observable<any> {

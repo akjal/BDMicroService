@@ -4,6 +4,7 @@ using CatalogAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CatalogAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250317083847_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +32,7 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ApplicationStatus")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -60,14 +64,17 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Duration")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("IntakeMonths")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -103,10 +110,12 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DocumentType")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("FilePath")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
@@ -130,6 +139,7 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConditionsText")
+                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
@@ -137,6 +147,7 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OfferType")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -148,6 +159,7 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("StudentResponse")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -176,6 +188,7 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentMethod")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -183,6 +196,7 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TransactionRef")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -202,10 +216,12 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("ContactNumber")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -213,6 +229,7 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -222,10 +239,12 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Nationality")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -236,6 +255,7 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PassportNumber")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
@@ -255,6 +275,7 @@ namespace CatalogAPI.Migrations
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("ContactEmail")
+                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 

@@ -16,6 +16,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CourseEditComponent } from '../course-edit/course-edit.component';
 import { CatalogService } from '../../_services/catalog.service';
+import { Course } from '../../models/course.model';
 @Component({
   selector: 'course-list',
   standalone: true,
@@ -120,15 +121,4 @@ export class CourseListComponent implements AfterViewInit {
       }
     });
   }
-}
-
-export interface Course {
-  name: string;
-  id: number;
-  duration: number;
-  type: string;
-  description: string;
-  currentEnrollment: number;
-  maxEnrollment: number;
-  university: string;
 }

@@ -1,15 +1,29 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace CatalogAPI.Entities;
 public class University
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
+    [MaxLength(128)]
 
-    public string? Name { get; set; }
+    public  required string Name { get; set; }
+    [MaxLength(128)]
 
-    public string? WebPages { get; set; }
+    public string? Website { get; set; }
+    [MaxLength(128)]
 
     public string? Country { get; set; }
+    [MaxLength(10)]
 
-    public string? CountryCode { get; set; }
+    public string? City { get; set; }
+     [MaxLength(128)]
 
-    public string? StateProvince { get; set; }
+    public string? ContactEmail { get; set; }
+
+    
+    public ICollection<Course> Courses { get; set; }
+
+   
+  
 }

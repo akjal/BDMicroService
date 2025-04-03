@@ -1,4 +1,6 @@
 using CatalogAPI.Data;
+using CatalogAPI.Services.Implementations;
+using CatalogAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,12 @@ builder.Services.AddDbContext<DataContext>(opt =>
 }
 );  
 builder.Services.AddSingleton<DocumentIntelligenceService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
+builder.Services.AddScoped<IUniversityService, UniversityService>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
+
 builder.Services.AddControllers();
 builder.Services.AddCors();
 

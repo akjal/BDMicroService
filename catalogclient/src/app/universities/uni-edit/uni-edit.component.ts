@@ -10,9 +10,9 @@ import { Component, inject, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient } from '@angular/common/http';
-import { University } from '../../universities/uni-list/uni-list.component';
 import { CatalogService } from '../../_services/catalog.service';
 import { MatOption, MatSelect } from '@angular/material/select';
+import { University } from '../../models/university.model';
 @Component({
   selector: 'app-uni-edit',
   standalone: true,

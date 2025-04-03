@@ -1,10 +1,18 @@
-public class ApplicationDto
+namespace CatalogAPI.DTOs;
+
+public class ApplicationDTO
 {
-    public string FullName { get; set; }
-    public string Email { get; set; }
-    public string PassportNumber { get; set; }
-    public DateTime PassportIssueDate { get; set; }
-    public DateTime PassportExpiryDate { get; set; }
-    public int UniversityId { get; set; }
-    public string Course { get; set; }
+         public Guid Id { get; set; }
+        public Guid StudentId { get; set; }
+        public string StudentName { get; set; }
+
+        public Guid CourseId { get; set; }
+        public string CourseName { get; set; }
+
+        public Guid UniversityId { get; set; }
+        public string UniversityName { get; set; }
+
+        public string ApplicationStatus { get; set; }
+        public DateTime CreatedOn { get; set; }
+
 }

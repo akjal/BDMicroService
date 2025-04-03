@@ -16,6 +16,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CatalogService } from '../../_services/catalog.service';
 import { UniEditComponent } from '../uni-edit/uni-edit.component';
+import { University } from '../../models/university.model';
 
 @Component({
   selector: 'app-uni-list',
@@ -38,7 +39,7 @@ export class UniListComponent implements AfterViewInit {
   title = 'Universities';
   universities!: University[];
   dataSource!: MatTableDataSource<University>;
-  displayedColumns: string[] = ['name', 'webPage', 'country', 'state'];
+  displayedColumns: string[] = ['name', 'website', 'country', 'state'];
   @ViewChild(MatSort) sort: MatSort = <MatSort>{};
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngAfterViewInit() {
@@ -81,13 +82,4 @@ export class UniListComponent implements AfterViewInit {
       }
     });
   }
-}
-
-export interface University {
-  name: string;
-  id: number;
-  country: string;
-  webPages: string;
-  countryCode: string;
-  state: string;
 }

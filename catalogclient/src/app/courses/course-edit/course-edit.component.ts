@@ -8,12 +8,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Component, inject, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Course } from '../course-list/course-list.component';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClient } from '@angular/common/http';
-import { University } from '../../universities/uni-list/uni-list.component';
 import { CatalogService } from '../../_services/catalog.service';
 import { MatOption, MatSelect } from '@angular/material/select';
+import { University } from '../../models/university.model';
+import { Course } from '../../models/course.model';
 
 @Component({
   selector: 'course-edit',
@@ -39,7 +39,7 @@ export class CourseEditComponent {
     @Inject(MAT_DIALOG_DATA) public data: Course
   ) {
     this.GetUniversities();
-    this.selectedUniversity = data.university;
+    // this.selectedUniversity = data.university;
   }
   private GetUniversities() {
     this.catalogService.getAllUniversities().subscribe({

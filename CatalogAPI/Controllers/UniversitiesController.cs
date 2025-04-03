@@ -1,68 +1,57 @@
-using CatalogAPI.Data;
-using CatalogAPI.Entities;
+using CatalogAPI.Services.Interfaces;
 using CatalogAPI.DTOs;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-namespace CatalogAPI.Controllers;
-
-[ApiController]
-[Route("api/[controller]")]
-public class UniversitiesController(DataContext context) : ControllerBase
+namespace CourseApp.API.Controllers
 {
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<University>>> GetUniversities(){
-        var universities = await context.Universities.ToListAsync();
-        return universities;
-    }
-
-     [HttpGet("{id:int}")]
-    public async Task<ActionResult<University>> GetUniversityById(int id){
-        var uni = await context.Universities.FindAsync(id);
-        if(uni == null) return NotFound();
-        return uni;
-    }
-
-    [HttpPost]
-public async Task<ActionResult<University>> PostCourse(University uni)
-{
-    context.Universities.Add(uni);
-    await context.SaveChangesAsync();
-
-    //    return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
-     return NoContent(); //success
-}
-
-[HttpPut("{id}")]
-public async Task<IActionResult> PutCourse(int id, University uni)
-{
-    if (id != uni.Id)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class UniversityController : ControllerBase
     {
-        return BadRequest();
-    }
+        private readonly IUniversityService _universityService;
 
-    context.Entry(uni).State = EntityState.Modified;
-
-    try
-    {
-        await context.SaveChangesAsync();
-    }
-    catch (DbUpdateConcurrencyException)
-    {
-        if (!UniversityExists(id))
+        public UniversityController(IUniversityService universityService)
         {
-            return NotFound();
+            _universityService = universityService;
         }
-        else
-        {
-            throw;
-        }
-    }
 
-    return NoContent();
-}
-private bool UniversityExists(int id)
-    {
-        return context.Universities.Any(e => e.Id == id);
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UniversityDTO>>> GetAll()
+        {
+            var result = await _universityService.GetAllUniversitiesAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UniversityDTO>> GetById(Guid id)
+        {
+            var university = await _universityService.GetUniversityByIdAsync(id);
+            if (university == null) return NotFound();
+            return Ok(university);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<UniversityDTO>> Create(CreateUniversityDTO dto)
+        {
+            var created = await _universityService.AddUniversityAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<UniversityDTO>> Update(Guid id, UpdateUniversityDTO dto)
+        {
+            if (id != dto.Id) return BadRequest("ID mismatch");
+            var updated = await _universityService.UpdateUniversityAsync(dto);
+            if (updated == null) return NotFound();
+            return Ok(updated);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _universityService.DeleteUniversityAsync(id);
+            if (!result) return NotFound();
+            return NoContent();
+        }
     }
 }

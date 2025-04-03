@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './uni-add.component.html',
-  styleUrl: './uni-add.component.css'
+  styleUrl: './uni-add.component.css',
 })
-export class UniAddComponent {
-
-}
+export class UniAddComponent {}
