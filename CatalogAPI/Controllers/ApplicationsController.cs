@@ -17,15 +17,18 @@ namespace CatalogAPI.Controllers;
             private readonly IStudentService _studentService;
         private readonly IApplicationService _applicationService;
          private readonly IDocumentService _documentService;
+         private readonly DocumentIntelligenceService _docExtractService;
 
         public ApplicationController(
             IStudentService studentService,
             IApplicationService applicationService,
-            IDocumentService documentService)
+            IDocumentService documentService,
+            DocumentIntelligenceService docService)
         {
             _studentService = studentService;
             _applicationService = applicationService;
             _documentService = documentService;
+            this._docExtractService = docService;
         }
 
 
@@ -96,4 +99,34 @@ namespace CatalogAPI.Controllers;
             }
         }
 
+     [HttpPost("passport/extract")]
+    public async Task<IActionResult> ExtractPassport([FromForm] IFormFile file)
+    {
+        if (file == null || file.Length == 0)
+            return BadRequest("No file uploaded.");
+
+        using var stream = file.OpenReadStream();
+        var fields = await _docExtractService.ExtractPassportDataAsync(stream);
+
+        // Map known fields (optional enhancement)
+        fields.TryGetValue("FirstName", out var firstName);
+        fields.TryGetValue("LastName", out var lastName);
+        fields.TryGetValue("DocumentNumber", out var passportNumber);
+        fields.TryGetValue("DateOfIssue", out var issueDate);
+        fields.TryGetValue("DateOfExpiration", out var expiryDate);
+        fields.TryGetValue("CountryRegion", out var country);
+        fields.TryGetValue("Nationality", out var nationality);
+
+
+
+        return Ok(new
+        {
+            fullName = $"{firstName} {lastName}",
+            passportNumber,
+            passportIssueDate = issueDate,
+            passportExpiryDate = expiryDate,
+            country,
+            nationality
+        });
+    }
     }

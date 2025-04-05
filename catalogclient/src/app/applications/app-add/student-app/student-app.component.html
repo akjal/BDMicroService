@@ -1,0 +1,152 @@
+<mat-card>
+  <h2>Student Application</h2>
+
+  <!-- 🔽 This is the stepper -->
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <!-- Step 1 -->
+    <mat-step [stepControl]="studentForm">
+      <form [formGroup]="studentForm">
+        <ng-template matStepLabel>Student Profile</ng-template>
+        <mat-form-field class="full-width"
+          ><mat-label>First Name</mat-label
+          ><input matInput formControlName="firstName"
+        /></mat-form-field>
+        <mat-form-field class="full-width"
+          ><mat-label>Last Name</mat-label
+          ><input matInput formControlName="lastName"
+        /></mat-form-field>
+        <mat-form-field class="full-width"
+          ><mat-label>Email</mat-label
+          ><input matInput formControlName="email" type="email"
+        /></mat-form-field>
+        <mat-form-field class="full-width"
+          ><mat-label>Date of Birth</mat-label
+          ><input matInput formControlName="dateOfBirth" type="date"
+        /></mat-form-field>
+        <mat-form-field class="full-width"
+          ><mat-label>Nationality</mat-label
+          ><input matInput formControlName="nationality"
+        /></mat-form-field>
+        <mat-form-field class="full-width"
+          ><mat-label>Contact Number</mat-label
+          ><input matInput formControlName="contactNumber"
+        /></mat-form-field>
+        <mat-form-field class="full-width"
+          ><mat-label>Address</mat-label
+          ><textarea matInput formControlName="address"></textarea>
+        </mat-form-field>
+        <div class="step-actions">
+          <button
+            mat-raised-button
+            color="primary"
+            matStepperNext
+            [disabled]="studentForm.invalid"
+          >
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 2 -->
+    <mat-step [stepControl]="courseForm">
+      <form [formGroup]="courseForm">
+        <ng-template matStepLabel>Course Selection</ng-template>
+        <mat-form-field class="full-width">
+          <mat-label>University</mat-label>
+          <mat-select
+            formControlName="universityId"
+            (selectionChange)="onUniversityChange()"
+          >
+            <mat-option *ngFor="let uni of universities" [value]="uni.id">{{
+              uni.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <mat-label>Course</mat-label>
+          <mat-select formControlName="courseId">
+            <mat-option
+              *ngFor="let course of filteredCourses"
+              [value]="course.id"
+              >{{ course.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <div class="step-actions">
+          <button mat-button matStepperPrevious>Back</button>
+          <button
+            mat-raised-button
+            color="primary"
+            matStepperNext
+            [disabled]="courseForm.invalid"
+          >
+            Next
+          </button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 3 -->
+    <mat-step [stepControl]="documentForm">
+      <form [formGroup]="documentForm">
+        <ng-template matStepLabel>Upload Documents</ng-template>
+
+        <div class="full-width">
+          <label for="passport"><strong>Passport Document</strong></label
+          ><br />
+          <input
+            type="file"
+            id="passport"
+            (change)="onFileSelected($event, 'passport')"
+            required
+          />
+        </div>
+
+        <div class="full-width mt-3">
+          <label for="transcript"><strong>Transcript Document</strong></label
+          ><br />
+          <input
+            type="file"
+            id="transcript"
+            (change)="onFileSelected($event, 'transcript')"
+            required
+          />
+        </div>
+
+        <div class="step-actions mt-4">
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-raised-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 4 -->
+    <mat-step>
+      <ng-template matStepLabel>Review & Submit</ng-template>
+      <h3>Review Your Application</h3>
+      <div>
+        <strong>Name:</strong> {{ studentForm.value.firstName }}
+        {{ studentForm.value.lastName }}<br />
+        <strong>Email:</strong> {{ studentForm.value.email }}<br />
+        <strong>Course:</strong> {{ getCourseName(courseForm.value.courseId)
+        }}<br />
+        <strong>University:</strong>
+        {{ getUniversityName(courseForm.value.universityId) }}<br />
+        <strong>Uploaded Passport:</strong> {{ uploadedFiles["passport"]
+        }}<br />
+        <strong>Uploaded Transcript:</strong>
+        {{ uploadedFiles["transcript"] }}<br />
+      </div>
+
+      <div class="step-actions mt-4">
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-raised-button color="primary" (click)="submitApplication()">
+          Submit
+        </button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</mat-card>

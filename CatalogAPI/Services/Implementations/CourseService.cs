@@ -132,5 +132,27 @@ namespace CatalogAPI.Services.Implementations
             await _context.SaveChangesAsync();
             return true;
         }
-    }
+       
+     public async Task<IEnumerable<CourseDTO>> GetCoursesByUniversityIdAsync(Guid id)
+        {
+         return await _context.Courses
+        .Include(c => c.University)
+        .Where(c => c.UniversityId == id)
+        .Select(c => new CourseDTO
+        {
+            Id = c.Id,
+            Name = c.Name,
+            TuitionFee = c.TuitionFee,
+            Duration = c.Duration,
+            IntakeMonths = c.IntakeMonths,
+            UniversityId = c.UniversityId,
+            MaxEnrollment = c.MaxEnrollment,
+            CurrentEnrollment = c.CurrentEnrollment,
+            UniversityName = c.University.Name
+        })
+        .ToListAsync();
+
+
+        }
+}
 }

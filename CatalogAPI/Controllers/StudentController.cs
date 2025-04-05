@@ -34,14 +34,14 @@ namespace CatalogAPI.Controllers;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Student>> Create(Student student)
+        public async Task<ActionResult<Student>> Create(StudentDTO student)
         {
             var created = await _studentService.AddStudentAsync(student);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Student>> Update(Guid id, Student student)
+        public async Task<ActionResult<Student>> Update(Guid id, StudentDTO  student)
         {
             if (id != student.Id) return BadRequest("ID mismatch");
             var updated = await _studentService.UpdateStudentAsync(student);

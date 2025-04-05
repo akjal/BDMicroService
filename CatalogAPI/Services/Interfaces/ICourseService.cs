@@ -12,5 +12,6 @@ namespace CatalogAPI.Services.Interfaces
         Task<CourseDTO> AddCourseAsync(CreateCourseDTO course);
         Task<CourseDTO> UpdateCourseAsync(UpdateCourseDTO course);
         Task<bool> DeleteCourseAsync(Guid id);
+        Task<IEnumerable<CourseDTO>> GetCoursesByUniversityIdAsync(Guid id);
     }
 }

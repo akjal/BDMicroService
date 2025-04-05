@@ -58,5 +58,14 @@ namespace CatalogAPI.Controllers;
             if (!result) return NotFound();
             return NoContent();
         }
+   [HttpGet("university/{universityId}")]
+    public async Task<IActionResult> GetCoursesByUniversity(Guid universityId)
+    {
+        var courses = await _courseService.GetCoursesByUniversityIdAsync(universityId);
+        if (courses == null || courses?.Count() == 0) return NotFound("No courses found for this university");
+           
+
+        return Ok(courses); // 200 OK
+    }
     }
 

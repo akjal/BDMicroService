@@ -47,7 +47,7 @@ namespace CatalogAPI.Services.Implementations;
             }).FirstOrDefaultAsync();
         }
 
-        public async Task<Student> AddStudentAsync(StudentDTO studentDto)
+        public async Task<StudentDTO> AddStudentAsync(StudentDTO studentDto)
         {
               var student = new Student
                 {
@@ -68,7 +68,7 @@ namespace CatalogAPI.Services.Implementations;
             await _context.SaveChangesAsync();
 
            var addedStudent = await _context.Students.FindAsync(studentDto.Id);
-           return new Student
+           return new StudentDTO
                 {
                     FirstName = addedStudent.FirstName,
                     LastName = addedStudent.LastName,
@@ -89,7 +89,7 @@ namespace CatalogAPI.Services.Implementations;
             await _context.SaveChangesAsync();
             var updatedStudent = await _context.Students.FindAsync(student.Id);
             if (updatedStudent == null) return null;
-            return new Student
+            return new StudentDTO
                 {
                     FirstName = updatedStudent.FirstName,
                     LastName = updatedStudent.LastName,
@@ -113,6 +113,7 @@ namespace CatalogAPI.Services.Implementations;
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
             return true;
+            
         }
     }
 

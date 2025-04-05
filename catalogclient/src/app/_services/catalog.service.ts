@@ -43,11 +43,11 @@ export class CatalogService {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.post<any>(
-      this.baseUrl + 'applications/passport/extract',
+      this.baseUrl + 'application/passport/extract',
       formData
     );
   }
   submitApplication(data: any): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'applications', data);
+    return this.http.post<any>(this.baseUrl + 'application', data);
   }
 }
